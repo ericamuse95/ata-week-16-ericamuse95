@@ -29,7 +29,7 @@ public class Phase1Test {
     private ArgumentCaptor<List<Carton>> buildSundaeCaptor;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         service = DAGGER.provideIceCreamParlorService();
         initMocks(this);
     }

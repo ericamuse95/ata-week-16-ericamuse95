@@ -3,6 +3,7 @@ package com.kenzie.lambdaexpressions.numbergenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.Random;
 
 /**
  * Utility providing random numbers, demonstrating lambda expression usage.
@@ -26,7 +27,9 @@ public class NumberGenerator {
      */
     public List<Integer> generateNumbers() {
         // TODO: replace second argument with a lambda expression that implements Supplier<Integer>
-        return populateNumbers(5, null);
+        Random random = new Random();
+        Supplier<Integer> numberGenerator = () -> random.nextInt(499);
+        return populateNumbers(5, numberGenerator);
     }
 
     private List<Integer> populateNumbers(int size, Supplier<Integer> numberGenerator) {
@@ -34,7 +37,7 @@ public class NumberGenerator {
 
         for (int i = 0; i < size; i++) {
             // TODO: Replace argument to add() with a call to numberGenerator's method
-            numbers.add(-1);
+            numbers.add(numberGenerator.get());
         }
 
         return numbers;

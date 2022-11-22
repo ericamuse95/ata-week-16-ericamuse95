@@ -31,7 +31,7 @@ public class Phase3Test {
     private ArgumentCaptor<List<Queue<Ingredient>>> makeIceCreamCartonsCaptor;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         serviceSpy = DAGGER.provideIceCreamParlorService();
         initMocks(this);
     }

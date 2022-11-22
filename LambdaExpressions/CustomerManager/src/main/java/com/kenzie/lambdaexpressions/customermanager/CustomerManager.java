@@ -1,5 +1,6 @@
 package com.kenzie.lambdaexpressions.customermanager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ public class CustomerManager {
 
     /**
      * Main method of project. When completed it should print to standard output a list of emailed customers.
+     *
      * @param args Main method parameter
      */
     public static void main(String[] args) {
@@ -22,15 +24,20 @@ public class CustomerManager {
 
     /**
      * Checks if customers have accepted new terms and conditions.
+     *
      * @return List of Strings of customers emailed.
      */
     public List<String> checkCustomers() {
         DatabaseManager databaseManager = new DatabaseManager();
         // TODO Get Customers from DatabaseManager using the method getCustomers
-
+        List<String> emailedCustomers = databaseManager.getCustomers();
         // TODO Use List's forEach() method with a lambda expression to check the status for each customer,
         //  emailing each customer who has not accepted the new terms.
-
+        emailedCustomers.forEach((emailedCustomer) -> {
+            if(!databaseManager.checkCustomer(emailedCustomer)){
+                databaseManager.emailCustomer(emailedCustomer);
+            }
+        });
         return databaseManager.getEmailedCustomers();
     }
 }

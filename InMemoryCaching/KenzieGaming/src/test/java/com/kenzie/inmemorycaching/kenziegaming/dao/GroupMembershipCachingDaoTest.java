@@ -29,25 +29,42 @@ public class GroupMembershipCachingDaoTest {
 
     // Rename this method
     @Test
-    public void test1() {
-        // Implement your test here
+    public void isUserInGroup_userNotInCache_delegateDaoCalled() {
         // GIVEN
+
+        String userId  = "knownUser";
+        String groupId = "knownGroup";
+
+        GroupMembershipCacheKey theKey = new GroupMembershipCacheKey(userId, groupId);
+        when(membershipDao.isUserInGroup(theKey)).thenReturn(true);
 
         // WHEN
 
+        boolean result = cachingMembershipDao.isUserInGroup(userId, groupId);
+
         // THEN
-        assertTrue(false);
+        assertTrue(result,"expected result to be true");
+        verify(membershipDao).isUserInGroup(theKey);
+        verifyNoMoreInteractions(membershipDao);
     }
 
-    // Rename this method
     @Test
-    public void test2() {
-        // Implement your test here
+    public void isUserInGroup_userInCache_delegateDaoNotCalled() {
         // GIVEN
+        String userId  = "userId";
+        String groupId = "groupId";
+        GroupMembershipCacheKey key = new GroupMembershipCacheKey(userId, groupId);
+
+        when(membershipDao.isUserInGroup(eq(key))).thenReturn(true);
+
+        cachingMembershipDao.isUserInGroup(userId, groupId);
 
         // WHEN
+        boolean result = cachingMembershipDao.isUserInGroup(userId, groupId);
 
         // THEN
-        assertTrue(false);
+        assertTrue(result, "Expected result to be consistent with the cached GroupMembershipDao's response");
+        verify(membershipDao, times(1)).isUserInGroup(eq(key));
+        verifyNoMoreInteractions(membershipDao);
     }
 }

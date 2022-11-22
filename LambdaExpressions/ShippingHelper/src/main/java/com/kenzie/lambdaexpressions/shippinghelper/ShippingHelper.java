@@ -1,6 +1,7 @@
 package com.kenzie.lambdaexpressions.shippinghelper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Processes orders, determining which are available for automated
@@ -31,7 +32,7 @@ public class ShippingHelper {
         // TODO Use list's removeIf method to remove orders larger than one item. Use a lambda expression to implement
         //  the predicate interface. Use the removeIf method on the list called orders, a copy of the argument
         //  orderList.
-
+        orders.removeIf(value -> value.size() > 1);
         return orders;
     }
 }

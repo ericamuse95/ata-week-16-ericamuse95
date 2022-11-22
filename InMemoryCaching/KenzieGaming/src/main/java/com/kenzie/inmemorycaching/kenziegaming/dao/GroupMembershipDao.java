@@ -65,6 +65,9 @@ public class GroupMembershipDao {
 
         return membership != null;
     }
+    public boolean isUserInGroup(GroupMembershipCacheKey key){
+        return this.isUserInGroup(key.getUserId(), key.getGroupId());
+    }
 
     /**
      * Returns a list of userIds that have memberships in the group with id: groupId.

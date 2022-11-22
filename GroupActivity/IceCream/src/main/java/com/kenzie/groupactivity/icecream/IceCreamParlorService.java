@@ -1,5 +1,6 @@
 package com.kenzie.groupactivity.icecream;
 
+import com.kenzie.groupactivity.icecream.converter.RecipeConverter;
 import com.kenzie.groupactivity.icecream.dao.CartonDao;
 import com.kenzie.groupactivity.icecream.dao.RecipeDao;
 import com.kenzie.groupactivity.icecream.exception.CartonCreationFailedException;
@@ -53,7 +54,8 @@ public class IceCreamParlorService {
         List<Carton> cartons = cartonDao.getCartonsByFlavorNames(flavorNames);
 
         // PHASE 1: Use removeIf() to remove any empty cartons from cartons
-
+        //cartons.removeIf((carton) -> carton.isEmpty());
+        cartons.removeIf(Carton::isEmpty);
         return buildSundae(cartons);
     }
 
@@ -63,7 +65,7 @@ public class IceCreamParlorService {
 
         // PHASE 2: Use forEach() to add one scoop of each flavor
         // remaining in cartons
-
+        cartons.forEach((aCarton) -> sundae.addScoop(aCarton.getFlavor()));
         return sundae;
     }
 
@@ -95,6 +97,9 @@ public class IceCreamParlorService {
 
         // PHASE 3: Replace right-hand side: use map() to convert List<Recipe> to List<Queue<Ingredient>>
         List<Queue<Ingredient>> ingredientQueues = new ArrayList<>();
+        ingredientQueues = recipes.stream().map((aRecipe) ->
+                        RecipeConverter.fromRecipeToIngredientQueue(aRecipe))
+                .collect(Collectors.toList());
 
         return makeIceCreamCartons(ingredientQueues);
     }

@@ -1,5 +1,7 @@
 package com.kenzie.lambdaexpressions.pricemanager;
 
+import com.google.common.base.Function;
+
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
@@ -25,13 +27,11 @@ public class PriceManager {
         prices.add(new BigDecimal("24.99"));
 
         BigDecimal salesTaxStateOne = new BigDecimal("1.05");
-
         List<BigDecimal> newPricesStateOne = priceManager.calculateStateTotalPrices(prices, salesTaxStateOne);
         System.out.println(newPricesStateOne);
 
         BigDecimal setupFeeStateTwo = new BigDecimal(3);
         BigDecimal salesTaxStateTwo = new BigDecimal("1.08");
-
         List<BigDecimal> newPricesStateTwo = priceManager.calculateStateTotalPrices(prices, setupFeeStateTwo,
                 salesTaxStateTwo);
         System.out.println(newPricesStateTwo);
@@ -39,7 +39,6 @@ public class PriceManager {
         BigDecimal setupFeeStateThree = new BigDecimal(5);
         BigDecimal salesFeeStateThree = new BigDecimal("2.25");
         BigDecimal countyFeeStateThree = new BigDecimal("0.99");
-
         List<BigDecimal> newPricesStateThree = priceManager.calculateStateTotalPrices(prices, setupFeeStateThree,
                 salesFeeStateThree, countyFeeStateThree);
         System.out.println(newPricesStateThree);
@@ -52,10 +51,13 @@ public class PriceManager {
      * @return List of new prices calculated
      */
     public List<BigDecimal> calculateStateTotalPrices(List<BigDecimal> prices, BigDecimal salesTax) {
-        // TODO Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
+        //  Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
         //  implementing the Function interface. Alter the return statement to return the total prices calculated. Refer
         //  to the instructions for assistance in calculating the prices correctly.
-        return prices;
+        PriceCalculator newPriceCalculator = new PriceCalculator();
+        java.util.function.Function<BigDecimal, BigDecimal> calculation = price  -> price.multiply(salesTax);
+
+        return newPriceCalculator.calculateTotalPrices(prices,calculation);
     }
 
     /**
@@ -67,10 +69,13 @@ public class PriceManager {
      */
     public List<BigDecimal> calculateStateTotalPrices(List<BigDecimal> prices, BigDecimal setupFee, BigDecimal
             salesTax) {
-        // TODO Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
+        //  Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
         //  implementing the Function interface. Alter the return statement to return the total prices calculated. Refer
         //  to the instructions for assistance in calculating the prices correctly.
-        return prices;
+        PriceCalculator newPriceCalculator = new PriceCalculator();
+        java.util.function.Function<BigDecimal, BigDecimal> calculation = price  -> price.add(setupFee).multiply(salesTax);
+
+        return newPriceCalculator.calculateTotalPrices(prices,calculation);
     }
 
     /**
@@ -83,9 +88,13 @@ public class PriceManager {
      */
     public List<BigDecimal> calculateStateTotalPrices(List<BigDecimal> prices, BigDecimal setupFee, BigDecimal salesFee,
                                                       BigDecimal countyFee) {
-        // TODO Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
+        //  Call PriceCalculator's method calculateTotalPrices by giving an argument that is a lambda expression
         //  implementing the Function interface. Alter the return statement to return the total prices calculated. Refer
         //  to the instructions for assistance in calculating the prices correctly.
-        return prices;
+        PriceCalculator newPriceCalculator = new PriceCalculator();
+        java.util.function.Function<BigDecimal, BigDecimal> calculation = price  ->
+                price.add(setupFee).add(salesFee).add(countyFee);
+
+        return newPriceCalculator.calculateTotalPrices(prices,calculation);
     }
 }
